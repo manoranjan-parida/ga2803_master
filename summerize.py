@@ -7,6 +7,10 @@ Created on Sun Mar 28 16:34:22 2021
 
 import numpy
 from preprocessors import PreprocessText
+import flask
+from flask import Flask, request
+
+summaryapp = Flask(__name__)
 
 class summerizeArticle:
     
@@ -39,7 +43,12 @@ class summerizeArticle:
         summary = self.combineSentences(firstsent, sortedSentenece)
         return summary
 
-summaryObj = summerizeArticle()
-summary =summaryObj.summerize()
-print('The Summary is:\n\n{}'.format(summary))
+@summaryapp.route('/home/summary', methods=['GET'])
+def summaryApi():
+    summaryObj = summerizeArticle()
+    summary =summaryObj.summerize()
+    return summary
+    # print('The Summary is:\n\n{}'.format(summary))
+    
+summaryapp.run(host='127.0.0.1', port = 8001)
             
